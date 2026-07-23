@@ -51,7 +51,7 @@ python main.py
 
 ## Project Structure
 
-```
+```txt
 doc_assistant_project/
 ├── src/
 │   ├── schemas.py        # Pydantic models
@@ -70,7 +70,7 @@ doc_assistant_project/
 
 The LangGraph agent follows this workflow:
 
-![](./docs/langgraph_agent_architecture.png)
+![Agent Architecture](./docs/langgraph_agent_architecture.png)
 
 ## Implementation Tasks
 
@@ -168,7 +168,7 @@ Complete the `create_workflow` function that:
 
 **Graph Structure**:
 
-```
+```txt
 classify_intent --> [qa_agent|summarization_agent|calculation_agent] --> update_memory --> END
 ```
 
@@ -203,11 +203,9 @@ Complete the `get_chat_prompt_template` function in `prompts.py`:
 Implement the `CALCULATION_SYSTEM_PROMPT` constant in `prompts.py`:
 
 1. Write a system prompt for the calculation agent that instructs the LLM to:
-
-- Determine the document that must be retrieved and retrieve it using the document reader tool
-- Determine the mathematical expression to calculate based on the user's input
-- Use the calculator tool to perform the calculation
-
+   - Determine the document that must be retrieved and retrieve it using the document reader tool
+   - Determine the mathematical expression to calculate based on the user's input
+   - Use the calculator tool to perform the calculation
 2. Make sure the LLM uses the calculator tool for ALL calculations no matter how simple
 
 ### 4. Tool Implementation (tools.py)

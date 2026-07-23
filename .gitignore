@@ -42,6 +42,7 @@ Thumbs.db
 .coverage
 htmlcov/
 *.cover
+test_logs/
 
 # Distribution
 dist/

@@ -59,15 +59,66 @@ class ToolLogger:
             json.dump(self.logs, f, indent=2)
 
 
-# TODO: Implement the calculator tool using the @tool decorator.
-# This tool should safely evaluate mathematical expressions and log its usage.
-# Refer to README.md Task 4.1 for detailed implementation requirements.
 def create_calculator_tool(logger: ToolLogger):
     """
-    Creates a calculator tool - TO BE IMPLEMENTED
+    Creates a calculator tool that safely evaluates mathematical expressions.
+
+    Args:
+        logger: A ToolLogger instance for recording tool usage.
+
+    Returns:
+        A LangChain tool that evaluates mathematical expressions.
     """
-    # Your implementation here
-    pass
+
+    @tool
+    def calculator(expression: str) -> str:
+        """
+        Evaluate a mathematical expression safely.
+
+        Args:
+            expression: A mathematical expression to evaluate (e.g., '2 + 3 * 4').
+
+        Returns:
+            The result of the evaluation as a string.
+        """
+        try:
+            sanitized = expression.strip()
+            if not re.fullmatch(r'[\d\s\+\-\*\/\.\(\)]+', sanitized):
+                error_msg = f"Invalid expression: contains disallowed characters. Only numbers and +, -, *, /, (, ) are permitted."
+                logger.log_tool_use(
+                    "calculator",
+                    {"expression": expression},
+                    {"error": error_msg}
+                )
+                return error_msg
+
+            result = eval(sanitized)
+            result_str = str(result)
+            logger.log_tool_use(
+                "calculator",
+                {"expression": expression},
+                {"result": result_str}
+            )
+            return result_str
+
+        except ZeroDivisionError:
+            error_msg = "Error: Division by zero."
+            logger.log_tool_use(
+                "calculator",
+                {"expression": expression},
+                {"error": error_msg}
+            )
+            return error_msg
+        except Exception as e:
+            error_msg = f"Error evaluating expression: {str(e)}"
+            logger.log_tool_use(
+                "calculator",
+                {"expression": expression},
+                {"error": error_msg}
+            )
+            return error_msg
+
+    return calculator
 
 
 def create_document_search_tool(retriever, logger: ToolLogger):
