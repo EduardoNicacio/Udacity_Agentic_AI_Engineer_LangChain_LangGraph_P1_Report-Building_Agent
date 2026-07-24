@@ -279,3 +279,7 @@ After implementation, your assistant should be able to:
 - Maintain conversation context across turns
 
 Good luck with your implementation! Remember to test thoroughly and refer to the existing working code for guidance on patterns and best practices.
+
+## License
+
+This project is part of the [Udacity](https://udacity.com) Agentic AI Engineer with LangChain and LangGraph Nanodegree program.
